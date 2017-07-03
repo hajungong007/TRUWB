@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DecaRangeRTLS</string>
+   <string>杭州智鹍科技-UWB定位系统</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../res/resources.qrc">
@@ -24,17 +24,17 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="viewMenu">
     <property name="title">
-     <string>&amp;View</string>
+     <string>窗口</string>
     </property>
    </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="title">
-     <string>Help</string>
+     <string>帮助</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
@@ -58,7 +58,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="viewSettings_dw">
    <property name="windowTitle">
-    <string>Settings</string>
+    <string>设置</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -67,7 +67,7 @@
   </widget>
   <widget class="QDockWidget" name="minimap_dw">
    <property name="windowTitle">
-    <string>Minimap</string>
+    <string>平面图</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>

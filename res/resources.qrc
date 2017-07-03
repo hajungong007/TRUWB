@@ -9,5 +9,6 @@
         <file>redlight.png</file>
         <file>connect.png</file>
         <file>disconnect.png</file>
+        <file>openfile.png</file>
     </qresource>
 </RCC>
