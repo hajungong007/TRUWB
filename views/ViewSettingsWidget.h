@@ -1,0 +1,105 @@
+// -------------------------------------------------------------------------------------------------------------------
+//
+//  File: ViewSettingsWidget.h
+//
+//  Copyright 2016 (c) Decawave Ltd, Dublin, Ireland.
+//
+//  All rights reserved.
+//
+//  Author:
+//
+// -------------------------------------------------------------------------------------------------------------------
+
+#ifndef VIEWSETTINGSWIDGET_H
+#define VIEWSETTINGSWIDGET_H
+
+#include <QWidget>
+#include <QTimer>
+
+namespace Ui {
+class ViewSettingsWidget;
+}
+
+class ViewSettingsWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit ViewSettingsWidget(QWidget *parent = 0);
+    ~ViewSettingsWidget();
+
+    int applyFloorPlanPic(const QString &path);
+
+signals:
+    void saveViewSettings(void);
+
+protected slots:
+    void onReady();
+
+    void floorplanOpenClicked();
+    void updateLocationFilter(int index);
+    void enableFiltering(void);
+    void originClicked();
+    void scaleClicked();
+
+    void gridShowClicked();
+    void originShowClicked();
+    void tagHistoryShowClicked();
+
+    void saveFPClicked();
+    void tagAncTableShowClicked();
+    void useAutoPosClicked();
+    void showGeoFencingModeClicked();
+    void showNavigationModeClicked();
+    void alarmSetClicked();
+
+    void zone1ValueChanged(double);
+    void zone2ValueChanged(double);
+    void zone1EditFinished(void);
+    void zone2EditFinished(void);
+    void tagHistoryNumberValueChanged(int);
+
+    void showOriginGrid(bool orig, bool grid);
+    void getFloorPlanPic(void);
+    void showSave(bool);
+
+    void setTagHistory(int h);
+    void loggingClicked(void);
+
+    //实现围栏功能-围栏范围调节变动关联至配置文件
+    void onFenceX1ValueChange(double data);
+    void onFenceY1ValueChange(double data);
+    void onFenceW1ValueChange(double data);
+    void onFenceH1ValueChange(double data);
+
+    void onFenceX2ValueChange(double data);
+    void onFenceY2ValueChange(double data);
+    void onFenceW2ValueChange(double data);
+    void onFenceH2ValueChange(double data);
+
+    void onFenceX3ValueChange(double data);
+    void onFenceY3ValueChange(double data);
+    void onFenceW3ValueChange(double data);
+    void onFenceH3ValueChange(double data);
+
+    void onFenceX4ValueChange(double data);
+    void onFenceY4ValueChange(double data);
+    void onFenceW4ValueChange(double data);
+    void onFenceH4ValueChange(double data);
+
+    //实现围栏功能--报警提示
+    void onEnterFence();
+
+private:
+    Ui::ViewSettingsWidget *ui;
+
+    //实现围栏功能--报警定时器
+    QTimer *timer;
+    QPixmap redlight;
+    QPixmap greenlight;
+
+    bool _logging ;
+    bool _floorplanOpen ;
+};
+
+#endif // VIEWSETTINGSWIDGET_H
