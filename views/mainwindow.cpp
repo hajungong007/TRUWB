@@ -179,14 +179,14 @@ void MainWindow::connectionStateChanged(SerialConnection::ConnectionState state)
     {
         case SerialConnection::Connecting:
         {
-            statusBar()->showMessage(QString("Connecting to Tag/Anchor..."));
+            statusBar()->showMessage(QString("正在连接至 Tag/Anchor..."));
             _showMainToolBar = false;
             _notConnected = false;
             break;
         }
         case SerialConnection::Connected:
         {
-            statusBar()->showMessage("Connection successful.");
+            statusBar()->showMessage("连接成功");
             loadSettings();
             _showMainToolBar = false;
             _notConnected = false;
@@ -194,7 +194,7 @@ void MainWindow::connectionStateChanged(SerialConnection::ConnectionState state)
         }
         case SerialConnection::ConnectionFailed:
         {
-            statusBar()->showMessage("Connection failed.");
+            statusBar()->showMessage("连接失败");
             loadSettings();
             _showMainToolBar = true;
             _notConnected = true;
@@ -202,7 +202,7 @@ void MainWindow::connectionStateChanged(SerialConnection::ConnectionState state)
         }
         case SerialConnection::Disconnected:
         {
-            statusBar()->showMessage("Connection disconnected.");
+            statusBar()->showMessage("连接已断开");
             _showMainToolBar = true;
             _notConnected = true;
             break;
@@ -269,12 +269,12 @@ void MainWindow::saveSettings()
 
 void MainWindow::onAboutAction()
 {
-    _infoLabel->setText(tr("Invoked <b>Help|About</b>"));
-    QMessageBox::about(this, tr("About"),
-            tr("<b>DecaRangeRTLS</b>"
-               "<br>version 3.6 (" __DATE__
-               ") <br>Copyright (C) 2016, Decawave Ltd.\n"
-               "<br>www.decawave.com"));
+    _infoLabel->setText(tr("Invoked <b>帮助|关于</b>"));
+    QMessageBox::about(this, tr("关于"),
+            tr("<b>UWB定位系统</b>"
+               "<br>版本号 1.0 (" __DATE__
+               ") <br>Copyright (C) 2017, ZKTech\n"
+               "<br>www.zhikuntech.com"));
 }
 
 void MainWindow::loadConfigFile(QString filename)

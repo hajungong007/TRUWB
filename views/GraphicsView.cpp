@@ -21,6 +21,7 @@
 #include <QWheelEvent>
 #include <QScrollBar>
 #include <QSettings>
+#include <QTimer>
 
 #include <qmath.h>
 
@@ -45,11 +46,19 @@ GraphicsView::GraphicsView(QWidget *parent) :
 void GraphicsView::onReady()
 {
     QObject::connect(RTLSDisplayApplication::viewSettings(), SIGNAL(floorplanChanged()), this, SLOT(floorplanChanged()));
+
+    //屏幕刷新定时器初始化
+    screenFlash = new QTimer(this);
+    screenFlash->setInterval(500);
+
+    QObject::connect(screenFlash, SIGNAL(timeout()), this, SLOT(onUpdateScreen()));
+
+    screenFlash->start();
 }
 
 GraphicsView::~GraphicsView()
 {
-
+    delete screenFlash;
 }
 
 void GraphicsView::translateView(qreal dx, qreal dy)
@@ -423,7 +432,7 @@ void GraphicsView::toolDestroyed()
 void GraphicsView::drawFence(QPainter *painter)
 {
     QSettings file("fence.ini", QSettings::IniFormat);
-    painter->setPen(QPen(QBrush(Qt::red), 0.05));
+    painter->setPen(QPen(QBrush(Qt::red), 0.03));
 
     for(int i = 0;i<4;i++)
     {
@@ -434,4 +443,9 @@ void GraphicsView::drawFence(QPainter *painter)
        painter->drawRect(x, y, w, h);
     }
 
+}
+
+void GraphicsView::onUpdateScreen()
+{
+    this->viewport()->update();
 }

@@ -119,6 +119,9 @@ protected slots:
     void centerRect(const QRectF &visibleRect);
     void centerAt(double x, double y);
 
+    //屏幕刷新
+    void onUpdateScreen();
+
 protected:
     virtual void showEvent(QShowEvent *event);
     virtual void resizeEvent(QResizeEvent *event);
@@ -150,6 +153,9 @@ private:
     AbstractTool *_tool;
 
     bool _ignoreContextMenu;
+
+    //屏幕刷新定时
+    QTimer *screenFlash;
 
     /**
      * @brief The MouseContext enum represents the possible states of mouse interaction.

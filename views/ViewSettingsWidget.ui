@@ -22,6 +22,9 @@
        <height>300</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: #666;</string>
+     </property>
      <property name="currentIndex">
       <number>2</number>
      </property>
@@ -343,6 +346,9 @@
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="3" column="2">
         <widget class="QLabel" name="label_11">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>pixels</string>
          </property>
@@ -357,6 +363,9 @@
        </item>
        <item row="5" column="2">
         <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>pixesl/m</string>
          </property>
@@ -364,6 +373,9 @@
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_3">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>X Offset</string>
          </property>
@@ -387,6 +399,9 @@
        </item>
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="floorplanPath_lb">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>No Floor Plan</string>
          </property>
@@ -414,6 +429,9 @@
        </item>
        <item row="2" column="2">
         <widget class="QLabel" name="label_12">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>pixels</string>
          </property>
@@ -428,6 +446,9 @@
        </item>
        <item row="4" column="2">
         <widget class="QLabel" name="label_10">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>pixels/m</string>
          </property>
@@ -445,6 +466,9 @@
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>X Scale</string>
          </property>
@@ -452,6 +476,9 @@
        </item>
        <item row="6" column="0">
         <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>Flip X</string>
          </property>
@@ -459,6 +486,9 @@
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_4">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>Y Offset</string>
          </property>
@@ -473,6 +503,9 @@
        </item>
        <item row="5" column="0">
         <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>Y Scale</string>
          </property>
@@ -480,6 +513,9 @@
        </item>
        <item row="7" column="0">
         <widget class="QLabel" name="label_8">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>Flip Y</string>
          </property>
@@ -492,6 +528,9 @@
          </property>
          <item row="0" column="0">
           <widget class="QCheckBox" name="showOrigin">
+           <property name="styleSheet">
+            <string notr="true">color: #666;</string>
+           </property>
            <property name="text">
             <string>Show Origin</string>
            </property>
@@ -499,6 +538,9 @@
          </item>
          <item row="1" column="2">
           <widget class="QPushButton" name="scaleY_pb">
+           <property name="styleSheet">
+            <string notr="true">color: #666;</string>
+           </property>
            <property name="text">
             <string>Y Scale</string>
            </property>
@@ -506,6 +548,9 @@
          </item>
          <item row="1" column="0">
           <widget class="QPushButton" name="scaleX_pb">
+           <property name="styleSheet">
+            <string notr="true">color: #666;</string>
+           </property>
            <property name="text">
             <string>X Scale</string>
            </property>
@@ -513,6 +558,9 @@
          </item>
          <item row="0" column="2">
           <widget class="QPushButton" name="origin_pb">
+           <property name="styleSheet">
+            <string notr="true">color: #666;</string>
+           </property>
            <property name="text">
             <string>Set Origin</string>
            </property>
@@ -534,6 +582,9 @@
            <height>0</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>Open</string>
          </property>
@@ -541,6 +592,9 @@
        </item>
        <item row="1" column="1" alignment="Qt::AlignHCenter">
         <widget class="QCheckBox" name="saveFP">
+         <property name="styleSheet">
+          <string notr="true">color: #666;</string>
+         </property>
          <property name="text">
           <string>Save Settings</string>
          </property>
@@ -570,8 +624,11 @@
             <height>0</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">color: #666;</string>
+          </property>
           <property name="text">
-           <string>Width (m)</string>
+           <string>宽 (m)</string>
           </property>
          </widget>
         </item>
@@ -596,8 +653,11 @@
             <height>0</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">color: #666;</string>
+          </property>
           <property name="text">
-           <string>Height (m)</string>
+           <string>高 (m)</string>
           </property>
          </widget>
         </item>
@@ -611,10 +671,13 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="2" column="0" colspan="2">
          <widget class="QCheckBox" name="gridShow">
+          <property name="styleSheet">
+           <string notr="true">color: #666;</string>
+          </property>
           <property name="text">
-           <string>Show Grid</string>
+           <string>打开栅格</string>
           </property>
          </widget>
         </item>
@@ -629,6 +692,9 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
+       </property>
        <property name="text">
         <string>1</string>
        </property>
@@ -637,10 +703,13 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>160</y>
+         <y>150</y>
          <width>21</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>X</string>
@@ -655,6 +724,9 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
+       </property>
        <property name="text">
         <string>Y</string>
        </property>
@@ -663,10 +735,13 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>160</y>
+         <y>150</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="fenceY_1">
@@ -675,18 +750,21 @@
          <x>50</x>
          <y>180</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
       <widget class="QLabel" name="label_16">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>160</y>
+         <x>130</x>
+         <y>150</y>
          <width>31</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>宽</string>
@@ -695,11 +773,14 @@
       <widget class="QLabel" name="label_17">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>130</x>
          <y>180</y>
          <width>31</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>高</string>
@@ -709,9 +790,9 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>160</y>
+         <y>150</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
@@ -721,7 +802,7 @@
          <x>160</x>
          <y>180</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
@@ -742,9 +823,9 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>210</y>
+         <y>220</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
@@ -752,9 +833,9 @@
        <property name="geometry">
         <rect>
          <x>240</x>
-         <y>210</y>
+         <y>220</y>
          <width>51</width>
-         <height>41</height>
+         <height>51</height>
         </rect>
        </property>
        <property name="text">
@@ -765,10 +846,13 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>210</y>
+         <y>220</y>
          <width>21</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>X</string>
@@ -778,10 +862,13 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>230</y>
+         <y>250</y>
          <width>21</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>Y</string>
@@ -791,10 +878,13 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>220</y>
+         <y>230</y>
          <width>16</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>2</string>
@@ -804,20 +894,23 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>230</y>
+         <y>250</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
       <widget class="QLabel" name="label_23">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>210</y>
+         <x>130</x>
+         <y>220</y>
          <width>31</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>宽</string>
@@ -827,20 +920,23 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>210</y>
+         <y>220</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
       <widget class="QLabel" name="label_24">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>230</y>
+         <x>130</x>
+         <y>250</y>
          <width>31</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>高</string>
@@ -850,9 +946,9 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>230</y>
+         <y>250</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
@@ -860,9 +956,9 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>260</y>
+         <y>280</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
@@ -870,9 +966,9 @@
        <property name="geometry">
         <rect>
          <x>240</x>
-         <y>260</y>
+         <y>280</y>
          <width>51</width>
-         <height>41</height>
+         <height>51</height>
         </rect>
        </property>
        <property name="text">
@@ -883,10 +979,13 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>260</y>
+         <y>280</y>
          <width>21</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>X</string>
@@ -896,10 +995,13 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>280</y>
+         <y>310</y>
          <width>21</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>Y</string>
@@ -909,10 +1011,13 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>270</y>
+         <y>290</y>
          <width>16</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>3</string>
@@ -922,20 +1027,23 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>280</y>
+         <y>310</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
       <widget class="QLabel" name="label_29">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>260</y>
+         <x>130</x>
+         <y>280</y>
          <width>31</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>宽</string>
@@ -945,20 +1053,23 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>260</y>
+         <y>280</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
       <widget class="QLabel" name="label_30">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>280</y>
+         <x>130</x>
+         <y>310</y>
          <width>31</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>高</string>
@@ -968,9 +1079,9 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>280</y>
+         <y>310</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
@@ -978,9 +1089,9 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>310</y>
+         <y>340</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
@@ -988,9 +1099,9 @@
        <property name="geometry">
         <rect>
          <x>240</x>
-         <y>310</y>
+         <y>340</y>
          <width>51</width>
-         <height>41</height>
+         <height>51</height>
         </rect>
        </property>
        <property name="text">
@@ -1001,10 +1112,13 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>310</y>
+         <y>340</y>
          <width>21</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>X</string>
@@ -1014,10 +1128,13 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>330</y>
+         <y>370</y>
          <width>21</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>Y</string>
@@ -1027,10 +1144,13 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>320</y>
+         <y>350</y>
          <width>16</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>4</string>
@@ -1040,20 +1160,23 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>330</y>
+         <y>370</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
       <widget class="QLabel" name="label_35">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>310</y>
+         <x>130</x>
+         <y>340</y>
          <width>31</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>宽</string>
@@ -1063,20 +1186,23 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>310</y>
+         <y>340</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>
       <widget class="QLabel" name="label_36">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>330</y>
+         <x>130</x>
+         <y>370</y>
          <width>31</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #666;</string>
        </property>
        <property name="text">
         <string>高</string>
@@ -1086,9 +1212,9 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>330</y>
+         <y>370</y>
          <width>62</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
       </widget>

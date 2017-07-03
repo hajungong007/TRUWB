@@ -7,5 +7,7 @@
         <file>DWctrler.ico</file>
         <file>greenlight.png</file>
         <file>redlight.png</file>
+        <file>connect.png</file>
+        <file>disconnect.png</file>
     </qresource>
 </RCC>

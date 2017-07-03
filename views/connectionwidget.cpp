@@ -131,12 +131,15 @@ void ConnectionWidget::connectButtonClicked()
 
 void ConnectionWidget::connectionStateChanged(SerialConnection::ConnectionState state)
 {
+    QPixmap connectIcon, disConnectIcon;
+    connectIcon.load(":/icons/connect.png");
+    disConnectIcon.load(":/icons/disconnect.png");
     this->_state = state;
     switch(state)
     {
     case SerialConnection::Disconnected:
     case SerialConnection::ConnectionFailed:
-        ui->connect_pb->setText("Connect");
+        ui->connect_pb->setIcon(connectIcon);
         this->show();
         break;
 
@@ -146,7 +149,7 @@ void ConnectionWidget::connectionStateChanged(SerialConnection::ConnectionState 
         break;
 
     case SerialConnection::Connected:
-        ui->connect_pb->setText("Disconnect");
+        ui->connect_pb->setIcon(disConnectIcon);
         this->hide();
         break;
     }
