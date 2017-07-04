@@ -15,6 +15,8 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QMediaPlayer>
+
 
 namespace Ui {
 class ViewSettingsWidget;
@@ -97,6 +99,14 @@ private:
     QTimer *timer;
     QPixmap redlight;
     QPixmap greenlight;
+
+    //实现围栏功能--报警提示音
+    QString runPath;        //程序运行地址
+    QString alarPath;       //mp3地址
+    QMediaPlayer *alarmMusic;
+
+    int currenPos;
+
 
     bool _logging ;
     bool _floorplanOpen ;

@@ -101,7 +101,7 @@ ViewSettingsWidget::ViewSettingsWidget(QWidget *parent) :
     else
     {
         ui->logging_pb->setText("开始");
-        ui->label_logingstatus->setText("日志不可以");
+        ui->label_logingstatus->setText("日志不可用");
     }
 
     RTLSDisplayApplication::connectReady(this, "onReady()");
@@ -132,8 +132,8 @@ void ViewSettingsWidget::onReady()
     ui->fenceH_4->setValue(file.value("H4").toDouble());
 
     //实现围栏功能--报警提示初始化
-    redlight.load(":/icons/redlight.png");
-    greenlight.load(":/icons/greenlight.png");
+    redlight.load(":/icons/redlight.svg");
+    greenlight.load(":/icons/greenlight.svg");
 
     timer = new QTimer(this);
     timer->setInterval(1000);
@@ -141,6 +141,18 @@ void ViewSettingsWidget::onReady()
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(onEnterFence()));
 
     timer->start();
+
+    //实现围栏功能--报警提示音
+    alarmMusic = new QMediaPlayer();
+    runPath = QCoreApplication::applicationDirPath(); //获取当前程序的运行目录
+    currenPos = 0;
+
+    alarPath = runPath + "/info.mp3";
+
+    alarPath.replace(QString("/"), QString("\\"));
+
+    alarmMusic->setMedia(QUrl::fromLocalFile(alarPath));
+    alarmMusic->setVolume(50);
 
 
     QPropertyDataWidgetMapper *mapper = QPropertyModel::newMapper(RTLSDisplayApplication::viewSettings(), this);
@@ -190,6 +202,7 @@ ViewSettingsWidget::~ViewSettingsWidget()
 {
     delete ui;
     delete timer;
+    delete alarmMusic;
 }
 
 
@@ -549,40 +562,72 @@ void ViewSettingsWidget::onEnterFence()
     {
         qDebug()<<"进入危险区，报警提示";
         ui->fenceAlarm_1->setPixmap(redlight);
+        alarmMusic->play();
+        currenPos = 1;
     }
     else
     {
         ui->fenceAlarm_1->setPixmap(greenlight);
+
+        if(currenPos == 1)
+        {
+            alarmMusic->stop();
+            currenPos = 0;
+        }
     }
 
     if(file.value("Alarm2").toInt() == 1)
     {
         qDebug()<<"进入危险区，报警提示";
         ui->fenceAlarm_2->setPixmap(redlight);
+        alarmMusic->play();
+        currenPos = 2;
     }
     else
     {
         ui->fenceAlarm_2->setPixmap(greenlight);
+
+        if(currenPos == 2)
+        {
+            alarmMusic->stop();
+            currenPos = 0;
+        }
     }
 
     if(file.value("Alarm3").toInt() == 1)
     {
         qDebug()<<"进入危险区，报警提示";
         ui->fenceAlarm_3->setPixmap(redlight);
+        alarmMusic->play();
+        currenPos = 3;
     }
     else
     {
         ui->fenceAlarm_3->setPixmap(greenlight);
+
+        if(currenPos == 3)
+        {
+            alarmMusic->stop();
+            currenPos = 0;
+        }
     }
 
     if(file.value("Alarm4").toInt() == 1)
     {
         qDebug()<<"进入危险区，报警提示";
         ui->fenceAlarm_4->setPixmap(redlight);
+        alarmMusic->play();
+        currenPos = 4;
     }
     else
     {
         ui->fenceAlarm_4->setPixmap(greenlight);
+
+        if(currenPos == 4)
+        {
+            alarmMusic->stop();
+            currenPos = 0;
+        }
     }
 
 

@@ -61,13 +61,20 @@
     <iconset resource="../res/resources.qrc">
      <normaloff>:/icons/wrench24.png</normaloff>:/icons/wrench24.png</iconset>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color:#666;font-size: 18px;</string>
+   </property>
    <property name="windowTitle">
     <string>设置</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="ViewSettingsWidget" name="viewSettings_w"/>
+   <widget class="ViewSettingsWidget" name="viewSettings_w">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="minimap_dw">
    <property name="windowTitle">

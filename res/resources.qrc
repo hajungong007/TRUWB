@@ -16,5 +16,7 @@
         <file>grid.png</file>
         <file>fence24.png</file>
         <file>wrench24.png</file>
+        <file>redlight.svg</file>
+        <file>greenlight.svg</file>
     </qresource>
 </RCC>
