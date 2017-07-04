@@ -9,6 +9,12 @@
         <file>redlight.png</file>
         <file>connect.png</file>
         <file>disconnect.png</file>
-        <file>openfile.png</file>
+        <file>gear.png</file>
+        <file>log.png</file>
+        <file>label.png</file>
+        <file>image.png</file>
+        <file>grid.png</file>
+        <file>fence24.png</file>
+        <file>wrench24.png</file>
     </qresource>
 </RCC>

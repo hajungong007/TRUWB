@@ -95,13 +95,13 @@ ViewSettingsWidget::ViewSettingsWidget(QWidget *parent) :
     ui->label_logfile->setText("");
     if(_logging)
     {
-        ui->logging_pb->setText("Stop");
-        ui->label_logingstatus->setText("Logging enabled.");
+        ui->logging_pb->setText("停止");
+        ui->label_logingstatus->setText("日志可用.");
     }
     else
     {
-        ui->logging_pb->setText("Start");
-        ui->label_logingstatus->setText("Logging disabled.");
+        ui->logging_pb->setText("开始");
+        ui->label_logingstatus->setText("日志不可以");
     }
 
     RTLSDisplayApplication::connectReady(this, "onReady()");

@@ -57,6 +57,10 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="viewSettings_dw">
+   <property name="windowIcon">
+    <iconset resource="../res/resources.qrc">
+     <normaloff>:/icons/wrench24.png</normaloff>:/icons/wrench24.png</iconset>
+   </property>
    <property name="windowTitle">
     <string>设置</string>
    </property>
