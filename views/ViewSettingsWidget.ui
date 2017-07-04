@@ -295,6 +295,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:#2d78f4;border:none;color:white;border-radius:5px;</string>
+       </property>
        <property name="text">
         <string>开始</string>
        </property>
@@ -399,7 +402,7 @@
          <item row="1" column="2">
           <widget class="QPushButton" name="scaleY_pb">
            <property name="styleSheet">
-            <string notr="true">color: #666;</string>
+            <string notr="true">background:#2d78f4;border:none;color:white;border-radius:5px;</string>
            </property>
            <property name="text">
             <string>Y轴缩放</string>
@@ -409,7 +412,7 @@
          <item row="1" column="0">
           <widget class="QPushButton" name="scaleX_pb">
            <property name="styleSheet">
-            <string notr="true">color: #666;</string>
+            <string notr="true">background:#2d78f4;border:none;color:white;border-radius:5px;</string>
            </property>
            <property name="text">
             <string>X轴缩放</string>
@@ -419,7 +422,7 @@
          <item row="0" column="2">
           <widget class="QPushButton" name="origin_pb">
            <property name="styleSheet">
-            <string notr="true">color: #666;</string>
+            <string notr="true">background:#2d78f4;border:none;color:white;border-radius:5px;</string>
            </property>
            <property name="text">
             <string>设置起点</string>
@@ -576,7 +579,7 @@
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string notr="true">background:#2d78f4;border:none;color:white;border-radius:5px;</string>
          </property>
          <property name="text">
           <string>保存</string>

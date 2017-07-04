@@ -436,11 +436,15 @@ void GraphicsView::drawFence(QPainter *painter)
 
     for(int i = 0;i<4;i++)
     {
-       int x = file.value("X" + QString::number(i+1)).toInt();
-       int y = file.value("Y" + QString::number(i+1)).toInt();
-       int w = file.value("W" + QString::number(i+1)).toInt();
-       int h = file.value("H" + QString::number(i+1)).toInt();
-       painter->drawRect(x, y, w, h);
+       double x = file.value("X" + QString::number(i+1)).toInt();
+       double y = file.value("Y" + QString::number(i+1)).toInt();
+       double w = file.value("W" + QString::number(i+1)).toInt();
+       double h = file.value("H" + QString::number(i+1)).toInt();
+
+       //左下角为原点画图
+       QRectF fenceRect(x, y, w, h);
+
+       painter->drawRect(fenceRect);
     }
 
 }
