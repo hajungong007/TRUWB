@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QPen>
 #include <QSettings>
+#include <QTimer>
 
 #define PEN_WIDTH (0.04)
 #define ANC_SIZE (0.15)
@@ -124,6 +125,14 @@ GraphicsWidget::GraphicsWidget(QWidget *parent) :
 
 void GraphicsWidget::onReady()
 {
+    //add function of autoPos by Sam_Yu
+    timer = new QTimer(this);
+    timer->setInterval(1000);
+
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(onNeedUpdateAnchorTable()));
+
+    timer->start();
+
 	QObject::connect(ui->tagTable, SIGNAL(cellChanged(int, int)), this, SLOT(tagTableChanged(int, int)));
     QObject::connect(ui->anchorTable, SIGNAL(cellChanged(int, int)), this, SLOT(anchorTableChanged(int, int)));
     QObject::connect(ui->tagTable, SIGNAL(cellClicked(int, int)), this, SLOT(tagTableClicked(int, int)));
@@ -135,12 +144,14 @@ void GraphicsWidget::onReady()
     QObject::connect(this, SIGNAL(centerRect(QRectF)), graphicsView(), SLOT(centerRect(QRectF)));
 
     _busy = false ;
+
 }
 
 GraphicsWidget::~GraphicsWidget()
 {
     delete _scene;
     delete ui;
+    delete timer;
 }
 
 GraphicsView *GraphicsWidget::graphicsView()
@@ -1794,4 +1805,27 @@ void GraphicsWidget::anchTableEditing(bool enable)
         }
     }
 
+}
+
+void GraphicsWidget::onNeedUpdateAnchorTable()
+{
+    QSettings file("autopos.ini", QSettings::IniFormat);
+    double x1, x2, x3, y2, y3;
+
+    if(file.value("updateanchor").toInt() == 1)
+    {
+        x1 = file.value("x1").toDouble();
+        x2 = file.value("x2").toDouble();
+        x3 = file.value("x3").toDouble();
+        y2 = file.value("y2").toDouble();
+        y3 = file.value("y3").toDouble();
+
+        ui->anchorTable->item(1,ColumnX)->setText(QString::number(x1, 'f', 2));
+        ui->anchorTable->item(2,ColumnX)->setText(QString::number(x2, 'f', 2));
+        ui->anchorTable->item(3,ColumnX)->setText(QString::number(x3, 'f', 2));
+        ui->anchorTable->item(2,ColumnY)->setText(QString::number(y2, 'f', 2));
+        ui->anchorTable->item(3,ColumnY)->setText(QString::number(y3, 'f', 2));
+
+        file.setValue("updateanchor", 1);
+    }
 }

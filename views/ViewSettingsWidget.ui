@@ -26,7 +26,7 @@
       <string notr="true">color: #666;font-size:19px;border-radius: 3px;</string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="config_tab">
       <property name="styleSheet">
@@ -1462,6 +1462,111 @@
        </property>
        <property name="pixmap">
         <pixmap resource="../res/resources.qrc">:/icons/fence24.png</pixmap>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>工具选项卡</string>
+      </attribute>
+      <widget class="QLabel" name="label_41">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>参数CAB</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_43">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>60</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>参数CAK</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="_cabValue">
+       <property name="geometry">
+        <rect>
+         <x>111</x>
+         <y>30</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border:1px solid #666;</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="_cakValue">
+       <property name="geometry">
+        <rect>
+         <x>111</x>
+         <y>70</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border:1px solid #666;</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="_tagAutoPos">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>110</y>
+         <width>101</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:#2d78f4;border:none;color:white;border-radius:5px;font-size:14px;</string>
+       </property>
+       <property name="text">
+        <string>Tag点校准</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="_absissaAutoPos">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>180</y>
+         <width>101</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:#2d78f4;border:none;color:white;border-radius:5px;font-size:14px;</string>
+       </property>
+       <property name="text">
+        <string>坐标系校准</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_44">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>250</y>
+         <width>291</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-top: 2px solid gray;opacity: 0.5;</string>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>

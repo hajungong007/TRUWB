@@ -26,6 +26,7 @@
 
 #include <QDomDocument>
 #include <QFile>
+#include <QSettings>
 
 #define DEBUG_FILE 0
 
@@ -86,6 +87,28 @@ void RTLSClient::onReady()
 {
     QObject::connect(RTLSDisplayApplication::serialConnection(), SIGNAL(serialOpened(QString, QString)),
                          this, SLOT(onConnected(QString, QString)));
+    //add function of autoPos by Sam_Yu
+    connect(this,&RTLSClient::estAvgGeted,this,&RTLSClient::onEstAvgGeted);
+
+    _getAvgBFinished = false;
+    _getAvgAFinished = false;
+    _getAvgTFinished = false;
+
+    _sumB1 = 0.0f;
+    _sumB2 = 0.0f;
+    _sumB3 = 0.0f;
+    _sumB4 = 0.0f;
+
+    _sumA1 = 0.0f;
+    _sumA2 = 0.0f;
+    _sumA3 = 0.0f;
+
+    _sumTx = 0.0f;
+    _sumTy = 0.0f;
+
+    _reportBCount = 0;
+    _reportACount = 0;
+    _reportTCount = 0;
 }
 
 void RTLSClient::onConnected(QString ver, QString conf)
@@ -469,6 +492,9 @@ void RTLSClient::newData()
     int length = data.length();
     int offset = 0;
     QString statusMsg;
+
+    QSettings file("autopos.ini", QSettings::IniFormat);
+
 #if (DEBUG_FILE==1)
     if(_fileDbg)
     {
@@ -509,21 +535,12 @@ void RTLSClient::newData()
 
         QByteArray tofReport = data.mid(offset, TOF_REPORT_LEN);
 
-        //e.g.
-        //mr 0f 000005a4 000004c8 00000436 000003f9 0958 c0 40424042 a0:0
-        //ma 07 00000000 0000085c 00000659 000006b7 095b 26 00024bed a0:0
-        //mc 0f 00000663 000005a3 00000512 000004cb 095f c1 00024c24 a0:0
-        int aid, tid, range[4], lnum, seq, mask;
+        int aid, tid, range[4], lnum, seq, mask, range_last[4], range_report[4];
         int rangetime;
         char c, type;
         int n = sscanf(tofReport.constData(),"m%c %x %x %x %x %x %x %x %x %c%d:%d", &type, &mask, &range[0], &range[1], &range[2], &range[3], &lnum, &seq, &rangetime, &c, &tid, &aid);
 
         aid &= 0x3;
-
-      //  qDebug() << "anc"<< aid << "tag" << tid << "range(mm)" << range ;
-        //qDebug() << "number"<< lnum << "seq" << seq << c << i ;
-
-  //      qDebug() << n << QString::fromLocal8Bit(tofReport, TOF_REPORT_LEN);
 
         offset += TOF_REPORT_LEN;
         length -= TOF_REPORT_LEN;
@@ -534,8 +551,6 @@ void RTLSClient::newData()
             qDebug() << n << string1;
             continue;
         }
-
-        //qDebug() << tofReport.constData();
 
         //notify the user if connected to a tag or an anchor
         if(_first)
@@ -570,55 +585,256 @@ void RTLSClient::newData()
 
                     QTextStream ts( _file );
                     ts << s;
+
+                    qDebug()<<"MAX_NUM_ANCS"<<s;
                 }
             }
             _first = false;
         }
 
-        if(type == 'c') //if 'c' these reports relate to tag <-> anchor ranges
+        /**
+         * 用户按下 tag 校对 或 abssis 校对 触发自动对齐事件
+         * @params "tag" tag校对 按下 1 取消 0
+         * @params "abssis" abssis校对 按下 1 取消 0
+         */
+        if(file.value("tag").toInt() == 1 || file.value("absiss").toInt() == 1)
         {
-            //check the mask and process the tag - anchor ranges
-            for(int k=0; k<MAX_NUM_ANCS; k++)
+            _calibFactorB = file.value("cab").toFloat();
+            _calibFactorK = file.value("cak").toFloat();
+            if(type == 'c')
             {
-                if((0x1 << k) & mask) //we have a valid range
+                for(int k=0; k<MAX_NUM_ANCS; k++)
                 {
-                    processTagRangeReport(k, tid, range[k], lnum, seq); //this is received when tags range to anchors
-                }
-            }
+                    /**
+                     * add by add function of autoPost-start
+                     */
 
-            trilaterateTag(tid, seq);
-
-        }
-
-        if(type == 'a') //if 'a' these reports relate to anchor <-> anchor ranges
-        {
-            int ai = 0, aj = 0;
-            if(_useAutoPos) //if Anchor auto positioning is enabled then process Anchor-Anchor TWR data
-            {
-                for(int k=1; k<MAX_NUM_ANCS; k++)
-                {
                     if((0x1 << k) & mask) //we have a valid range
                     {
-                        switch(k)
+                        if( range[k] == 0)
                         {
-                            case 1: //range A0 to A1
-                            ai = 0;
-                            aj = 1;
-                            break;
-                            case 2: //range A0 to A2
-                            ai = 0;
-                            aj = 2;
-                            break;
-                            case 3: //range A1 to A2
-                            ai = 1;
-                            aj = 2;
-                            break;
+                            range[k] = range_report[k];
+
+                        }
+                        else
+                        {
+                            range_report[k] = range[k];
                         }
 
-                        processAnchRangeReport(ai, aj, range[k], lnum, seq); //this is received when achors range to each other
+                        if(k==3)
+                        {
+                            if(_count_third<MAX_COUNT_NUM)
+                            {
+                                _count_third++;
+                                _use_third_anc = false;
+                            }
+                            else
+                            {
+                                _count_third = MAX_COUNT_NUM*2;
+                                _use_third_anc = true;
+                            }
+                        }
+                        else
+                        {
+                            if(_use_third_anc)
+                            {
+                                _count_third--;
+
+                                if(_count_third<MAX_COUNT_NUM)
+                                {
+                                    _use_third_anc = false;
+                                }
+                             }
+                        }
+
+                        range[k] = _calibFactorB*range[k] + _calibFactorK*1000;
+
+                        processTagRangeReport(k, tid, range[k], lnum, seq); //this is received when tags range to anchors
                     }
                 }
+
+                if(range[0]==0)
+                {
+                    range[0] = range_last[0];
+                }
+                else
+                {
+                    range_last[0]=range[0];
+                }
+
+                if(range[1]==0)
+                {
+                    range[1] = range_last[1];
+                }
+                else
+                {
+                    range_last[1]=range[1];
+                }
+
+                if(range[2]==0)
+                {
+                    range[2] = range_last[2];
+                }
+                else
+                {
+                    range_last[2]=range[2];
+                }
+
+                if(range[3]==0)
+                {
+                    range[3]= range_last[3];
+                }
+                else
+                {
+                    range_last[3]=range[3];
+                }
+
+                trilaterateTag(tid, seq);
+
+
+                //滤波数据筛选获取
+                if (!_getAvgBFinished)
+                {
+
+                    if (_reportBCount >= AVERAGE_NUM )
+                    {
+                        _avgB1 = _sumB1/AVERAGE_NUM;
+                        _avgB2 = _sumB2/AVERAGE_NUM;
+                        _avgB3 = _sumB3/AVERAGE_NUM;
+                        _avgB4 = _sumB4/AVERAGE_NUM;
+                        _getAvgBFinished = true;
+                    }
+                    else
+                    {
+                        _sumB1 += range[0];
+                        _sumB2 += range[1];
+                        _sumB3 += range[2];
+                        _sumB4 += range[3];
+                        _reportBCount++;
+                    }
+                }
+
+                qDebug()<<"1:"+QString::number(_avgB1);
+                 qDebug()<<"1:"+QString::number(_avgB2);
+                  qDebug()<<"1:"+QString::number(_avgB3);
+                   qDebug()<<"1:"+QString::number(_avgB3);
+                    qDebug()<<"2:"+QString::number(_getAvgAFinished);
+                    qDebug()<<"2:"+QString::number(_getAvgBFinished);
+                    qDebug()<<"2:"+QString::number(_getAvgTFinished);
+                    qDebug()<< file.value("absiss").toString();
+
+
+
+                if(_getAvgBFinished&&_getAvgAFinished&&_getAvgTFinished&&(file.value("absiss").toInt() == 1))
+                {
+                        qDebug()<<"触发 AnchorTag 坐标修改";
+                        emit estAvgGeted();
+
+                        file.setValue("absiss", 0);
+                }
+
             }
+
+            if(type == 'a') //if 'a' these reports relate to anchor <-> anchor ranges
+            {
+                int ai = 0, aj = 0;
+                    for(int k=1; k<MAX_NUM_ANCS; k++)
+                    {
+                        if((0x1 << k) & mask) //we have a valid range
+                        {
+                            switch(k)
+                            {
+                                case 1: //range A0 to A1
+                                ai = 0;
+                                aj = 1;
+                                break;
+                                case 2: //range A0 to A2
+                                ai = 0;
+                                aj = 2;
+                                break;
+                                case 3: //range A1 to A2
+                                ai = 1;
+                                aj = 2;
+                                break;
+                            }
+
+                            range[k] = _calibFactorB*range[k] + _calibFactorK*1000;
+
+                            processAnchRangeReport(ai, aj, range[k], lnum, seq); //this is received when achors range to each other
+                        }
+
+                    }
+
+                    qDebug()<<"-------------cc--------go"<<_getAvgAFinished;
+                        if (!_getAvgAFinished)
+                        {
+                            if (_reportACount >= AVERAGE_NUM)
+                            {
+                                _avgA1 = _sumA1/AVERAGE_NUM;
+                                _avgA2 = _sumA2/AVERAGE_NUM;
+                                _avgA3 = _sumA3/AVERAGE_NUM;
+                                _getAvgAFinished = true;
+
+                                qDebug()<<"------------------------------------go";
+                            }
+                            else
+                            {
+                                _sumA1 += range[1];
+                                _sumA2 += range[2];
+                                _sumA3 += range[3];
+                                _reportACount++;
+                                qDebug()<<"get";
+                            }
+                        }
+            }
+        }
+        else if(file.value("tag").toInt() == 0 || file.value("absiss") == 0)
+        {
+            if(type == 'c') //if 'c' these reports relate to tag <-> anchor ranges
+                 {
+                     //check the mask and process the tag - anchor ranges
+                     for(int k=0; k<MAX_NUM_ANCS; k++)
+                     {
+                         if((0x1 << k) & mask) //we have a valid range
+                         {
+                             processTagRangeReport(k, tid, range[k], lnum, seq); //this is received when tags range to anchors
+                         }
+                     }
+
+                     trilaterateTag(tid, seq);
+
+                 }
+
+                 if(type == 'a') //if 'a' these reports relate to anchor <-> anchor ranges
+                 {
+                     int ai = 0, aj = 0;
+                     if(_useAutoPos) //if Anchor auto positioning is enabled then process Anchor-Anchor TWR data
+                     {
+                         for(int k=1; k<MAX_NUM_ANCS; k++)
+                         {
+                             if((0x1 << k) & mask) //we have a valid range
+                             {
+                                 switch(k)
+                                 {
+                                     case 1: //range A0 to A1
+                                     ai = 0;
+                                     aj = 1;
+                                     break;
+                                     case 2: //range A0 to A2
+                                     ai = 0;
+                                     aj = 2;
+                                     break;
+                                     case 3: //range A1 to A2
+                                     ai = 1;
+                                     aj = 2;
+                                     break;
+                                 }
+
+                                 processAnchRangeReport(ai, aj, range[k], lnum, seq); //this is received when achors range to each other
+                             }
+                         }
+                     }
+                 }
         }
     }
 
@@ -855,7 +1071,10 @@ void RTLSClient::processTagRangeReport(int aid, int tid, int range, int lnum, in
 void RTLSClient::trilaterateTag(int tid, int seq)
 {
     int idx = 0, count = 0;
-    //bool trilaterate = false;
+
+    //add function of autoPos by Sam_Yu
+    QSettings file("autopos.ini", QSettings::IniFormat);
+
     vec3d report;
     bool newposition = false;
     int nolocation = 0;
@@ -879,8 +1098,6 @@ void RTLSClient::trilaterateTag(int tid, int seq)
     //we got next range seq. lets try and trilaterate the previous
     if(count >= 3)
     {
-        //qDebug() << "try to get location" ;
-
         if(calculateTagLocation(&report, count, &rp.rangeValue[lastSeq][0] ) == TRIL_3SPHERES)
         {
             newposition = true;
@@ -893,8 +1110,6 @@ void RTLSClient::trilaterateTag(int tid, int seq)
                 QTextStream ts( _file );
                 ts << s;
             }
-
-            //qDebug() << "emit tagPos" << rp.numberOfLEs;
 
             if(_usingFilter == 0)
             {
@@ -940,13 +1155,28 @@ void RTLSClient::trilaterateTag(int tid, int seq)
     {
         updateTagStatistics(idx, report.x, report.y, report.z);
 
+        if (!_getAvgTFinished)
+        {
+            _reportTCount++;
+            if (_reportTCount >= 100)
+            {
+                _avgTx = _sumTx/100.0f;
+                _avgTy = _sumTy/100.0f;
+                _getAvgTFinished = true;
+            }
+            else
+            {
+                _sumTx += report.x;
+                _sumTy += report.y;
+            }
+        }
+
         if(_usingFilter != 0)
         {
             emit tagPos(tid, rp.fx, rp.fy, rp.fz); //send the update to graphic
         }
     }
 
-    //qDebug() << "newposition" << newposition << idx << lastSeq << seq;
 }
 
 int RTLSClient::calculateTagLocation(vec3d *report, int count, int *ranges)
@@ -1229,4 +1459,96 @@ void RTLSClient::updateTagCorrection(int aid, int tid, int value)
 int* RTLSClient::getTagCorrections(int anchID)
 {
     return &_ancArray[anchID].tagRangeCorection[0];
+}
+
+void RTLSClient::onEstAvgGeted()
+{
+    QSettings file("autopos.ini", QSettings::IniFormat);
+    int rst = 0;
+
+    _avgR3Arry[_getAvgR3Times].z = _avgB4/1000.0f;
+    _avgR3Arry[_getAvgR3Times].x = _avgTx;
+    _avgR3Arry[_getAvgR3Times].y = _avgTy;
+
+    _getAvgR3Times++;
+
+    qDebug()<<"anch3 avgtx,avgty "<<_avgTx<<_avgTy<<"_getAvgR3Times"<<_getAvgR3Times;
+
+    if (_getAvgR3Times >= CALI3ANCHTIME)
+    {
+      qDebug()<<"_ancArray[3].x = "<<_ancArray[3].x<<"_ancArray[3].y = "<<_ancArray[3].y;
+
+      rst =  _ancCoordEstimation->getUwbEstimate_x3_y3(_ancArray[3].x,_ancArray[3].y,_avgR3Arry,&_delta_3,&_count_3);
+
+      if (-1 == rst)
+      {
+          qDebug()<<"estimate failed!!!";
+      }
+      else
+      {
+          qDebug()<<"estimate succ!!!";
+      }
+
+      _getAvgR3Times = 0;
+    }
+
+
+        float initCoord[7];
+
+        initCoord[0] = _ancArray[1].x;
+        initCoord[1] = _ancArray[2].x;
+        initCoord[2] = _ancArray[3].x;
+        initCoord[3] = _avgTx;
+        initCoord[4] = _ancArray[2].y;
+        initCoord[5] = _ancArray[3].y;
+        initCoord[6] = _avgTy;
+
+        _ancCoordEstimation->setInitCoord(initCoord);
+
+        float initA[3];
+        initA[0] = _avgA1;
+        initA[1] = _avgA2;
+        initA[2] = _avgA3;
+        _ancCoordEstimation->setInitA(initA);
+
+        float initB[4];
+        initB[0] = _avgB1;
+        initB[1] = _avgB2;
+        initB[2] = _avgB3;
+        initB[3] = _avgB4;
+        _ancCoordEstimation->setInitB(initB);
+
+        rst = _ancCoordEstimation->getUwbEstimate(&_delta,&_count);
+        if (-1 == rst)
+        {
+            qDebug()<<"estimate failed!!!";
+        }
+        else
+        {
+            //更新自动校准后的坐标系 到 anchorTable
+
+            file.setValue("x1", _ancCoordEstimation->x_1);
+            file.setValue("x2", _ancCoordEstimation->x_2);
+            file.setValue("x2", _ancCoordEstimation->y_2);
+            file.setValue("x3", _ancCoordEstimation->x_3);
+            file.setValue("x3", _ancCoordEstimation->y_3);
+
+            file.setValue("updateanchor", 1);
+
+            emit updateAnchorXYZ(1,1, _ancCoordEstimation->x_1);
+            emit updateAnchorXYZ(2,1, _ancCoordEstimation->x_2);
+            emit updateAnchorXYZ(2,2, _ancCoordEstimation->y_2);
+            emit updateAnchorXYZ(3,1, _ancCoordEstimation->x_3);
+            emit updateAnchorXYZ(3,2, _ancCoordEstimation->y_3);
+
+            qDebug()<<"estimate success!!!";
+        }
+
+
+}
+
+RTLSClient::~RTLSClient()
+{
+    delete _calcuwbtag;
+    delete _ancCoordEstimation;
 }

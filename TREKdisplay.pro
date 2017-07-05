@@ -38,7 +38,9 @@ SOURCES += main.cpp\
     tools/ScaleTool.cpp \
     util/QPropertyModel.cpp \
     network/SerialConnection.cpp \
-    tools/trilateration.cpp
+    tools/trilateration.cpp \
+    tools/anccoordestimation.cpp \
+    tools/calcuwbtag.cpp
 
 HEADERS  += \
     RTLSDisplayApplication.h \
@@ -56,7 +58,9 @@ HEADERS  += \
     tools/ScaleTool.h \
     util/QPropertyModel.h \
     network/SerialConnection.h \
-    tools/trilateration.h
+    tools/trilateration.h \
+    tools/anccoordestimation.h \
+    tools/calcuwbtag.h
 FORMS    += \
     views/mainwindow.ui \
     views/GraphicsWidget.ui \

@@ -55,6 +55,20 @@ ViewSettingsWidget::ViewSettingsWidget(QWidget *parent) :
     QObject::connect(ui->fenceH_4, SIGNAL(valueChanged(double)), this, SLOT(onFenceH4ValueChange(double)));
     //实现fence围栏功能-关联围栏范围调节控件，存入数据到文件中
 
+    /**
+     *function-实现坐标系、tag自动对齐
+     *Sam_Yu
+     */
+
+    QObject::connect(ui->_tagAutoPos, SIGNAL(clicked(bool)), this, SLOT(onTagAutoPos()));
+    QObjetc:connect(ui->_absissaAutoPos, SIGNAL(clicked(bool)), this, SLOT(onAbsissaAutoPos()));
+
+    /**
+     *function-实现坐标系、tag自动对齐
+     *Sam_Yu
+     */
+
+
     QObject::connect(ui->floorplanOpen_pb, SIGNAL(clicked()), this, SLOT(floorplanOpenClicked()));
 
     QObject::connect(ui->scaleX_pb, SIGNAL(clicked()), this, SLOT(scaleClicked()));
@@ -153,6 +167,15 @@ void ViewSettingsWidget::onReady()
 
     alarmMusic->setMedia(QUrl::fromLocalFile(alarPath));
     alarmMusic->setVolume(50);
+
+    //自动对齐坐标系初始化
+    QSettings filePos("autopos.ini", QSettings::IniFormat);
+    filePos.setValue("tag", 0);
+    filePos.setValue("absiss", 0);
+    filePos.setValue("updateanchor", 0);
+
+    ui->_cabValue->setValue(1.00);
+    ui->_cakValue->setValue(0.00);
 
 
     QPropertyDataWidgetMapper *mapper = QPropertyModel::newMapper(RTLSDisplayApplication::viewSettings(), this);
@@ -631,6 +654,49 @@ void ViewSettingsWidget::onEnterFence()
     }
 
 
+}
+
+void ViewSettingsWidget::onTagAutoPos()
+{
+    QSettings file("autopos.ini", QSettings::IniFormat);
+
+    double cab = ui->_cabValue->value();
+    double cak = ui->_cakValue->value();
+
+    if(ui->_tagAutoPos->text() == "Tag点校准")
+    {
+        file.setValue("cab", cab);
+        file.setValue("cak", cak);
+
+        file.setValue("tag", 1);
+
+        ui->_tagAutoPos->setText("取消");
+    }
+    else if(ui->_tagAutoPos->text() == "取消")
+    {
+        file.setValue("tag", 0);
+
+         ui->_tagAutoPos->setText("Tag点校准");
+    }
+
+
+}
+
+void ViewSettingsWidget::onAbsissaAutoPos()
+{
+    QSettings file("autopos.ini", QSettings::IniFormat);
+
+    double cab, cak;
+
+    cab = ui->_cabValue->value();
+    cak = ui->_cakValue->value();
+
+    file.setValue("cab", cab);
+    file.setValue("cak", cak);
+
+    file.setValue("absiss", 1);
+
+    qDebug()<<"对齐坐标系按钮按下";
 }
 
 

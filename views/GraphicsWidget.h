@@ -149,6 +149,10 @@ public slots:
     void setAlarm(bool in, bool out);
 
     void ancRanges(int a01, int a02, int a12);
+
+    //add function of autoPos by Sam_Yu
+    void onNeedUpdateAnchorTable();
+
 protected slots:
     void onReady();
 
@@ -187,6 +191,9 @@ private:
     QGraphicsLineItem * _line01;
     QGraphicsLineItem * _line02;
     QGraphicsLineItem * _line12;
+
+    //add function of autoPos by Sam_Yu
+    QTimer *timer;
 
 };
 

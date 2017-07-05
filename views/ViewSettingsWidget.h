@@ -92,6 +92,10 @@ protected slots:
     //实现围栏功能--报警提示
     void onEnterFence();
 
+    //实现坐标系、Tag点自动对齐
+    void onTagAutoPos();
+    void onAbsissaAutoPos();
+
 private:
     Ui::ViewSettingsWidget *ui;
 

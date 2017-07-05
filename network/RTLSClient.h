@@ -17,6 +17,9 @@
 
 #include "SerialConnection.h"
 #include "trilateration.h"
+#include "anccoordestimation.h"
+#include "calcuwbtag.h"
+
 #include <stdint.h>
 
 class QFile;
@@ -33,6 +36,11 @@ using namespace arma;
 #define HIS_LENGTH 50
 #define FILTER_SIZE 10  //NOTE: filter size needs to be > 2
 #define FILTER_SIZE_SHORT 6
+
+//add function of autoPos by Sam_Yu
+#define MAX_COUNT_NUM 100
+#define AVERAGE_NUM 1
+#define CALI3ANCHTIME 4
 
 typedef struct
 {
@@ -92,6 +100,7 @@ class RTLSClient : public QObject
     Q_OBJECT
 public:
     explicit RTLSClient(QObject *parent = 0);
+    ~RTLSClient();
 
     int calculateTagLocation(vec3d *report, int count, int *ranges);
     void updateTagStatistics(int i, double x, double y, double z);
@@ -132,6 +141,9 @@ signals:
     void enableFiltering(void);
     void ancRanges(int a01, int a02, int a12);
 
+    //add function of autoPos by Sam_Yu
+    void estAvgGeted();
+
 protected slots:
     void onReady();
     void onConnected(QString ver, QString conf);
@@ -142,6 +154,13 @@ protected slots:
 private slots:
     void newData();
     void connectionStateChanged(SerialConnection::ConnectionState);
+
+    /**
+     * function 自动对齐坐标系、Tag
+     * Sam_Yu
+     *
+     */
+    void onEstAvgGeted();
 
 private:
     bool _graphicsWidgetReady;
@@ -171,6 +190,55 @@ private:
     QString _logFilePath;
 
     int _filterSize;
+
+    //添加自动对其坐标系、tag
+    float _calibFactorK;
+    float _calibFactorB;
+
+    int _count_third;
+    int _reportBCount;
+    int _reportACount;
+    int _reportTCount;
+
+    bool _use_third_anc;
+    bool _getAvgBFinished;
+    bool _getAvgAFinished;
+    bool _getAvgTFinished;
+
+    float _sumB1;
+    float _sumB2;
+    float _sumB3;
+    float _sumB4;
+    float _avgB1;
+    float _avgB2;
+    float _avgB3;
+    float _avgB4;
+
+    float _sumA1;
+    float _sumA2;
+    float _sumA3;
+    float _avgA1;
+    float _avgA2;
+    float _avgA3;
+
+    float _avgTx;
+    float _avgTy;
+    float _sumTx;
+    float _sumTy;
+
+    vec3d  _avgR3Arry[CALI3ANCHTIME];
+
+    int _getAvgR3Times;
+
+    AncCoordEstimation *_ancCoordEstimation;
+    CalcUwbTag *_calcuwbtag;
+
+    float _delta;
+    float _delta_3;
+
+    int _count;
+    int _count_3;
+
 };
 
 void r95Sort(double s[], int l, int r);
