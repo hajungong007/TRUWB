@@ -109,6 +109,9 @@ void RTLSClient::onReady()
     _reportBCount = 0;
     _reportACount = 0;
     _reportTCount = 0;
+
+    _ancCoordEstimation = new AncCoordEstimation();
+    _calcuwbtag         = new CalcUwbTag();
 }
 
 void RTLSClient::onConnected(QString ver, QString conf)
@@ -1072,9 +1075,6 @@ void RTLSClient::trilaterateTag(int tid, int seq)
 {
     int idx = 0, count = 0;
 
-    //add function of autoPos by Sam_Yu
-    QSettings file("autopos.ini", QSettings::IniFormat);
-
     vec3d report;
     bool newposition = false;
     int nolocation = 0;
@@ -1529,9 +1529,9 @@ void RTLSClient::onEstAvgGeted()
 
             file.setValue("x1", _ancCoordEstimation->x_1);
             file.setValue("x2", _ancCoordEstimation->x_2);
-            file.setValue("x2", _ancCoordEstimation->y_2);
+            file.setValue("y2", _ancCoordEstimation->y_2);
             file.setValue("x3", _ancCoordEstimation->x_3);
-            file.setValue("x3", _ancCoordEstimation->y_3);
+            file.setValue("y3", _ancCoordEstimation->y_3);
 
             file.setValue("updateanchor", 1);
 

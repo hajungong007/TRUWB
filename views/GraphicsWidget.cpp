@@ -1826,6 +1826,6 @@ void GraphicsWidget::onNeedUpdateAnchorTable()
         ui->anchorTable->item(2,ColumnY)->setText(QString::number(y2, 'f', 2));
         ui->anchorTable->item(3,ColumnY)->setText(QString::number(y3, 'f', 2));
 
-        file.setValue("updateanchor", 1);
+        file.setValue("updateanchor", 0);
     }
 }

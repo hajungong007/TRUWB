@@ -697,6 +697,11 @@ void ViewSettingsWidget::onAbsissaAutoPos()
     file.setValue("absiss", 1);
 
     qDebug()<<"对齐坐标系按钮按下";
+    qDebug()<<QString::number(file.value("x1").toDouble(), 'f', 2);
+    qDebug()<<QString::number(file.value("x2").toDouble(), 'f', 2);
+    qDebug()<<QString::number(file.value("x3").toDouble(), 'f', 2);
+    qDebug()<<QString::number(file.value("y2").toDouble(), 'f', 2);
+    qDebug()<<QString::number(file.value("y3").toDouble(), 'f', 2);
 }
 
 
